@@ -2,7 +2,8 @@ Provides a customizable linear progress indicator widget for Flutter application
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+![20240223_061849](https://github.com/SwanFlutter/custom_linear_progress_indicator/assets/151648897/090007b6-b92c-47c7-abf4-064cb5b5cf7e)
+
 
 ## Getting started
 
