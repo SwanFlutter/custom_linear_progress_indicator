@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
               borderColor: Colors.black,
               borderStyle: BorderStyle.solid,
               colorLinearProgress: Colors.yellow,
-              animationDuration: 1000, // 1000 milliseconds = 1 second
+              animationDuration: const Duration(seconds: 1),
               borderRadius: 100,
               linearProgressBarBorderRadius: 100,
               backgroundColor: Colors.green.shade50,

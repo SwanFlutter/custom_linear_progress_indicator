@@ -8,7 +8,7 @@ class CustomLinearProgressIndicator extends StatefulWidget {
   final double value;
 
   /// [animationDuration]: An integer controlling the duration of the progress animation in milliseconds.
-  final int animationDuration;
+  final Duration animationDuration;
 
   /// /// [borderRadius]: A double value controlling the overall border radius of the progress bar.
   final double borderRadius;
@@ -61,7 +61,7 @@ class CustomLinearProgressIndicator extends StatefulWidget {
   const CustomLinearProgressIndicator({
     super.key,
     required this.value,
-    this.animationDuration = 500,
+    this.animationDuration = const Duration(milliseconds: 500),
     this.borderRadius = 0,
     this.borderColor = Colors.black,
     this.borderStyle = BorderStyle.solid,
@@ -96,7 +96,7 @@ class _CustomLinearProgressIndicatorState
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: widget.animationDuration),
+      duration: widget.animationDuration,
     );
     _updateAnimation();
   }
