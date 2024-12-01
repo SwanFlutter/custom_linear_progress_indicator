@@ -7,6 +7,8 @@ Provides a customizable linear progress indicator widget for Flutter application
 ![20241201_000540](https://github.com/user-attachments/assets/fa60c496-1550-45df-9003-3478afe7a13b)
 
 
+![20241201_062856](https://github.com/user-attachments/assets/30c077d5-2664-4f53-9e5e-9811c8e02a13)
+
 
 ## Getting started
 
