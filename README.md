@@ -9,7 +9,7 @@ Provides a customizable linear progress indicator widget for Flutter application
 
 ```yaml
 dependencies:
-   custom_linear_progress_indicator: ^0.1.0
+   custom_linear_progress_indicator: ^0.0.2
 
 ```
 ## How to use
@@ -23,7 +23,7 @@ import 'package:custom_linear_progress_indicator/custom_linear_progress_indicato
 ```dart
 CustomLinearProgressIndicator(
    value: progressPercent,
-   height: 50,
+   minHeight: 50,
    borderWidth: 4,
    borderColor: Colors.yellow.shade900,
    borderStyle: BorderStyle.solid,

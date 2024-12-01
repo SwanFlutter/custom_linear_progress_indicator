@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             CustomLinearProgressIndicator(
               value: progressPercent,
-              height: 50,
+              minHeight: 50,
               borderWidth: 4,
               borderColor: Colors.yellow.shade900,
               borderStyle: BorderStyle.solid,
