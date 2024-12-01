@@ -33,7 +33,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DateTime selectedData = DateTime.now();
+
   late double progressPercent = 3;
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,36 +49,39 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             // you can click double tap to reset progress
             CustomLinearProgressIndicator(
-              maxValue: 3, // new
               value: progressPercent,
               minHeight: 50,
               borderWidth: 4,
-              borderColor: Colors.yellow.shade900,
+              borderColor: Colors.black,
               borderStyle: BorderStyle.solid,
               colorLinearProgress: Colors.yellow,
-              animationDuration: 1000,
+              animationDuration: const Duration(seconds: 1),
               borderRadius: 20,
-              linearProgressBarBorderRadius: 15,
+
               backgroundColor: Colors.green.shade50,
               progressAnimationCurve: Curves.ease, // new
               alignment: Alignment.center, // new
               showPercent: true, // new
               percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),
-              gradientColors: const [
-                Colors.purple,
-                Colors.blue,
-                Colors.blueAccent
-              ], // new
-              onProgressChanged: (double value) {
-                // new
-                // log('Progress: $value');
-              },
+              onProgressChanged: (double value) {},
+              // New
+              progressGradient: const LinearGradient(
+                colors: [
+                  Colors.red,
+                  Colors.yellow,
+                  Colors.green,
+                ],
+              ),
             ),
             const SizedBox(height: 30),
             TextButton(
               onPressed: () {
                 setState(() {
-                  progressPercent += 0.5;
+                  if (progressPercent >= 1) {
+                    progressPercent = 0;
+                  } else {
+                    progressPercent += 0.3;
+                  }
                 });
 
                 log(progressPercent.toString());

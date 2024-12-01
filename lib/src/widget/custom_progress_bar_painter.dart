@@ -25,8 +25,8 @@ class CustomProgressBarPainter extends CustomPainter {
   /// [linearProgressBarBorderRadius]: A double value specifically adjusting the border radius of the linear progress bar element within the overall progress bar.
   final double linearProgressBarBorderRadius;
 
-  /// [gradientColors]: A List of Color values representing the gradient colors for the progress bar.
-  final List<Color>? gradientColors;
+  final LinearGradient? progressGradient;
+
 
   CustomProgressBarPainter({
     required this.value,
@@ -37,7 +37,9 @@ class CustomProgressBarPainter extends CustomPainter {
     required this.backgroundColor,
     required this.valueColor,
     required this.linearProgressBarBorderRadius,
-    this.gradientColors,
+
+    this.progressGradient,
+
   });
 
   @override
@@ -55,19 +57,17 @@ class CustomProgressBarPainter extends CustomPainter {
 
     // Progress
     if (value > 0) {
-      final progressPaint = Paint()
+      Paint progressPaint = Paint()
         ..color = valueColor
         ..style = PaintingStyle.fill;
 
-      if (gradientColors != null && gradientColors!.length > 1) {
-        final rect = Rect.fromLTWH(0, 0, size.width * value, size.height);
-        progressPaint.shader = LinearGradient(
-          colors: gradientColors!,
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ).createShader(rect);
-      } else {
-        progressPaint.color = valueColor;
+      if (progressGradient != null) {
+        progressPaint = Paint()
+          ..shader = progressGradient?.createShader(
+            Rect.fromLTWH(0, 0, size.width * value, size.height),
+          )
+          ..style = PaintingStyle.fill;
+
       }
 
       final progressWidth = size.width * value;
@@ -80,6 +80,7 @@ class CustomProgressBarPainter extends CustomPainter {
         bottomRight: Radius.circular(
             value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
       );
+
       canvas.drawRRect(progressRect, progressPaint);
 
       // Border for progress
