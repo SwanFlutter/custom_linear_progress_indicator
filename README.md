@@ -4,6 +4,9 @@ Provides a customizable linear progress indicator widget for Flutter application
 
 ![20240223_061849](https://github.com/SwanFlutter/custom_linear_progress_indicator/assets/151648897/090007b6-b92c-47c7-abf4-064cb5b5cf7e)
 
+![20241201_000540](https://github.com/user-attachments/assets/fa60c496-1550-45df-9003-3478afe7a13b)
+
+
 
 ## Getting started
 
