@@ -24,28 +24,33 @@ import 'package:custom_linear_progress_indicator/custom_linear_progress_indicato
 ## Usage
 
 ```dart
- // you can click double tap to reset progress
-            CustomLinearProgressIndicator(
-              maxValue: 1, // new
-              value: progressPercent,
-              minHeight: 50,
-              borderWidth: 4,
-              borderColor: Colors.yellow.shade900,
-              borderStyle: BorderStyle.solid,
-              colorLinearProgress: Colors.yellow,
-              animationDuration: 1000,
-              borderRadius: 5,
-              linearProgressBarBorderRadius: 10,
-              backgroundColor: Colors.green.shade50,
-              progressAnimationCurve: Curves.bounceInOut, // new
-              alignment: Alignment.center, // new
-              showPercent: true,// new
-              percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),
-              onProgressChanged: (double value) {
-                // new
-                log('Progress: $value');
-              },
-            ),
+// you can click double tap to reset progress
+CustomLinearProgressIndicator(
+  maxValue: 1, // new
+  value: progressPercent,
+  minHeight: 50,
+  borderWidth: 4,
+  borderColor: Colors.black,
+  borderStyle: BorderStyle.solid,
+  colorLinearProgress: Colors.yellow,
+  animationDuration: 1000, // 1000 milliseconds = 1 second
+  borderRadius: 100,
+  linearProgressBarBorderRadius: 100,
+  backgroundColor: Colors.green.shade50,
+  progressAnimationCurve: Curves.ease, // new
+  alignment: Alignment.center, // new
+  showPercent: true, // new
+  percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+  onProgressChanged: (double value) {},
+  // New
+  progressGradient: const LinearGradient(
+    colors: [
+      Colors.red,
+      Colors.yellow,
+      Colors.green,
+    ],
+  ),
+),
 ```
 
 See `/example` folder for better understanding.

@@ -62,10 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
               alignment: Alignment.center, // new
               showPercent: true, // new
               percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),
-              onProgressChanged: (double value) {
-                // new
-                log('Progress: $value');
-              },
+              onProgressChanged: (double value) {},
               // New
               progressGradient: const LinearGradient(
                 colors: [
