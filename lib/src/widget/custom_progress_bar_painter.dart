@@ -25,6 +25,8 @@ class CustomProgressBarPainter extends CustomPainter {
   /// [linearProgressBarBorderRadius]: A double value specifically adjusting the border radius of the linear progress bar element within the overall progress bar.
   final double linearProgressBarBorderRadius;
 
+  final LinearGradient? progressGradient;
+
   CustomProgressBarPainter({
     required this.value,
     required this.borderRadius,
@@ -34,6 +36,7 @@ class CustomProgressBarPainter extends CustomPainter {
     required this.backgroundColor,
     required this.valueColor,
     required this.linearProgressBarBorderRadius,
+    this.progressGradient,
   });
 
   @override
@@ -51,18 +54,29 @@ class CustomProgressBarPainter extends CustomPainter {
 
     // Progress
     if (value > 0) {
-      final progressPaint = Paint()
+      Paint progressPaint = Paint()
         ..color = valueColor
         ..style = PaintingStyle.fill;
+
+      if (progressGradient != null) {
+        progressPaint = Paint()
+          ..shader = progressGradient?.createShader(
+            Rect.fromLTWH(0, 0, size.width * value, size.height),
+          )
+          ..style = PaintingStyle.fill;
+      }
 
       final progressWidth = size.width * value;
       final progressRect = RRect.fromRectAndCorners(
         Rect.fromLTWH(0, 0, progressWidth, size.height),
         topLeft: Radius.circular(borderRadius),
         bottomLeft: Radius.circular(borderRadius),
-        topRight: Radius.circular(value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
-        bottomRight: Radius.circular(value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
+        topRight: Radius.circular(
+            value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
+        bottomRight: Radius.circular(
+            value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
       );
+
       canvas.drawRRect(progressRect, progressPaint);
 
       // Border for progress
@@ -92,6 +106,7 @@ class CustomProgressBarPainter extends CustomPainter {
         oldDelegate.borderWidth != borderWidth ||
         oldDelegate.backgroundColor != backgroundColor ||
         oldDelegate.valueColor != valueColor ||
-        oldDelegate.linearProgressBarBorderRadius != linearProgressBarBorderRadius;
+        oldDelegate.linearProgressBarBorderRadius !=
+            linearProgressBarBorderRadius;
   }
 }
