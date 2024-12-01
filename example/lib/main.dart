@@ -47,8 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             // you can click double tap to reset progress
             CustomLinearProgressIndicator(
-              maxValue: 1, // new
-
+              maxValue: 2, // new
               value: progressPercent,
               minHeight: 50,
               borderWidth: 4,
@@ -59,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
               borderRadius: 5,
               linearProgressBarBorderRadius: 10,
               backgroundColor: Colors.green.shade50,
-              progressAnimationCurve: Curves.bounceInOut, // new
+              progressAnimationCurve: Curves.ease, // new
               alignment: Alignment.center, // new
               showPercent: true, // new
               percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),

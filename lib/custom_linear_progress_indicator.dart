@@ -96,7 +96,8 @@ class _CustomLinearProgressIndicatorState extends State<CustomLinearProgressIndi
   }
 
   void _updateAnimation() {
-    final normalizedValue = (widget.value / widget.maxValue).clamp(0.0, 1.0);
+    final clampedValue = widget.value.clamp(0.0, widget.maxValue);
+    final normalizedValue = (clampedValue / widget.maxValue).clamp(0.0, 1.0);
     final normalizedPreviousValue = (_previousValue / widget.maxValue).clamp(0.0, 1.0);
 
     _animation = Tween<double>(
@@ -109,11 +110,11 @@ class _CustomLinearProgressIndicatorState extends State<CustomLinearProgressIndi
       ..addListener(() {
         setState(() {});
         if (widget.onProgressChanged != null) {
-          widget.onProgressChanged!(_animation.value * widget.maxValue);
+          widget.onProgressChanged!(clampedValue);
         }
       });
     _animationController.forward(from: 0);
-    _previousValue = widget.value;
+    _previousValue = clampedValue;
   }
 
   void _refreshAnimation() {
