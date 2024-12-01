@@ -7,7 +7,7 @@ class CustomLinearProgressIndicator extends StatefulWidget {
   /// [value]: A double value representing the current progress percentage (0.0 to 1.0).
   final double value;
 
-  /// [animationDuration]: An integer controlling the duration of the progress animation in milliseconds.
+  /// [animationDuration]: A Duration instance controlling the progress animation.
   final Duration animationDuration;
 
   /// /// [borderRadius]: A double value controlling the overall border radius of the progress bar.
@@ -26,7 +26,7 @@ class CustomLinearProgressIndicator extends StatefulWidget {
   final Color backgroundColor;
 
   /// [linearProgressBarBorderRadius]: A double value specifically adjusting the border radius of the linear progress bar element within the overall progress bar.
-  final double linearProgressBarBorderRadius;
+  final double? linearProgressBarBorderRadius;
 
   /// [minHeight]: A double value setting the minimum height of the progress bar.
   final double minHeight;
@@ -49,13 +49,6 @@ class CustomLinearProgressIndicator extends StatefulWidget {
   /// [alignment]: An AlignmentGeometry value specifying the alignment of the progress bar within its container.
   final AlignmentGeometry alignment;
 
-  /// [maxValue]: A double value representing the maximum value for the progress bar.
-  ///
-  /// Defaults 0 to 1.0.
-  ///
-  /// You can set this value to more than 100%.
-  final double maxValue;
-
   final LinearGradient? progressGradient;
 
   const CustomLinearProgressIndicator({
@@ -67,7 +60,6 @@ class CustomLinearProgressIndicator extends StatefulWidget {
     this.borderStyle = BorderStyle.solid,
     this.borderWidth = 1,
     this.backgroundColor = Colors.grey,
-    this.linearProgressBarBorderRadius = 0,
     this.colorLinearProgress = Colors.blue,
     this.minHeight = 20,
     this.onProgressChanged,
@@ -75,7 +67,7 @@ class CustomLinearProgressIndicator extends StatefulWidget {
     this.showPercent = false,
     this.progressAnimationCurve = Curves.easeInOut,
     this.alignment = Alignment.center,
-    this.maxValue = 1.0,
+    this.linearProgressBarBorderRadius,
     this.progressGradient,
   });
 
@@ -102,14 +94,11 @@ class _CustomLinearProgressIndicatorState
   }
 
   void _updateAnimation() {
-    final clampedValue = widget.value.clamp(0.0, widget.maxValue);
-    final normalizedValue = (clampedValue / widget.maxValue).clamp(0.0, 1.0);
-    final normalizedPreviousValue =
-        (_previousValue / widget.maxValue).clamp(0.0, 1.0);
+    final clampedValue = widget.value.clamp(0.0, 1.0);
 
     _animation = Tween<double>(
-      begin: normalizedPreviousValue,
-      end: normalizedValue,
+      begin: _previousValue,
+      end: clampedValue,
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: widget.progressAnimationCurve,
@@ -144,8 +133,7 @@ class _CustomLinearProgressIndicatorState
   @override
   void didUpdateWidget(CustomLinearProgressIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value ||
-        oldWidget.maxValue != widget.maxValue) {
+    if (oldWidget.value != widget.value) {
       _updateAnimation();
     }
   }
@@ -179,7 +167,7 @@ class _CustomLinearProgressIndicatorState
                 backgroundColor: widget.backgroundColor,
                 valueColor: widget.colorLinearProgress,
                 linearProgressBarBorderRadius:
-                    widget.linearProgressBarBorderRadius,
+                    widget.linearProgressBarBorderRadius ?? widget.borderRadius,
                 progressGradient: widget.progressGradient,
               ),
               size: Size.infinite,
@@ -190,7 +178,7 @@ class _CustomLinearProgressIndicatorState
                 child: Align(
                   alignment: widget.alignment,
                   child: Text(
-                    '${(_animation.value * widget.maxValue * 100).toStringAsFixed(1)}%',
+                    '${(_animation.value * 100).toInt()}%',
                     style: widget.percentTextStyle,
                   ),
                 ),

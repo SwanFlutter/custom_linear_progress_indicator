@@ -47,7 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             // you can click double tap to reset progress
             CustomLinearProgressIndicator(
-              maxValue: 1, // new
               value: progressPercent,
               minHeight: 50,
               borderWidth: 4,
@@ -55,8 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
               borderStyle: BorderStyle.solid,
               colorLinearProgress: Colors.yellow,
               animationDuration: const Duration(seconds: 1),
-              borderRadius: 100,
-              linearProgressBarBorderRadius: 100,
+              borderRadius: 20,
               backgroundColor: Colors.green.shade50,
               progressAnimationCurve: Curves.ease, // new
               alignment: Alignment.center, // new
@@ -76,7 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               onPressed: () {
                 setState(() {
-                  progressPercent += 0.3;
+                  if (progressPercent >= 1) {
+                    progressPercent = 0;
+                  } else {
+                    progressPercent += 0.3;
+                  }
                 });
 
                 log(progressPercent.toString());
