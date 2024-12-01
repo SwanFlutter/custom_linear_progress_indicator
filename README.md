@@ -20,9 +20,6 @@ import 'package:custom_linear_progress_indicator/custom_linear_progress_indicato
 ```
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
 ```dart
 CustomLinearProgressIndicator(
 borderColor: Colors.blue,
