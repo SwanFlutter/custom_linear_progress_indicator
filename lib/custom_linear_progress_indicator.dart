@@ -56,6 +56,9 @@ class CustomLinearProgressIndicator extends StatefulWidget {
   /// You can set this value to more than 100%.
   final double maxValue;
 
+  /// [gradientColors]: A List<Color> value specifying the colors for the gradient fill of the progress bar.
+  final List<Color>? gradientColors;
+
   const CustomLinearProgressIndicator({
     super.key,
     required this.value,
@@ -74,6 +77,7 @@ class CustomLinearProgressIndicator extends StatefulWidget {
     this.progressAnimationCurve = Curves.easeInOut,
     this.alignment = Alignment.center,
     this.maxValue = 1.0,
+    this.gradientColors,
   });
 
   @override
@@ -118,20 +122,19 @@ class _CustomLinearProgressIndicatorState extends State<CustomLinearProgressIndi
   }
 
   void _refreshAnimation() {
+    final clampedValue = widget.value.clamp(0.0, widget.maxValue);
+    final normalizedValue = (clampedValue / widget.maxValue).clamp(0.0, 1.0);
+
     _animation = Tween<double>(
       begin: 0,
-      end: widget.value,
+      end: normalizedValue,
     ).animate(CurvedAnimation(
       parent: _animationController,
-      curve: Curves.easeInOut,
-    ))
-      ..addListener(() {
-        setState(() {});
-        if (widget.onProgressChanged != null) {
-          widget.onProgressChanged!(_animation.value);
-        }
-      });
+      curve: widget.progressAnimationCurve,
+    ));
+
     _animationController.forward(from: 0);
+    _previousValue = clampedValue;
   }
 
   @override
@@ -171,6 +174,7 @@ class _CustomLinearProgressIndicatorState extends State<CustomLinearProgressIndi
                 backgroundColor: widget.backgroundColor,
                 valueColor: widget.colorLinearProgress,
                 linearProgressBarBorderRadius: widget.linearProgressBarBorderRadius,
+                gradientColors: widget.gradientColors,
               ),
               size: Size.infinite,
             ),

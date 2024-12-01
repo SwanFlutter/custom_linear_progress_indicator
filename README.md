@@ -12,7 +12,7 @@ Provides a customizable linear progress indicator widget for Flutter application
 
 ```yaml
 dependencies:
-   custom_linear_progress_indicator: ^0.0.3
+   custom_linear_progress_indicator: ^0.0.4
 
 ```
 ## How to use
@@ -24,7 +24,7 @@ import 'package:custom_linear_progress_indicator/custom_linear_progress_indicato
 ## Usage
 
 ```dart
- // you can click double tap to reset progress
+           // you can click double tap to reset progress
             CustomLinearProgressIndicator(
               maxValue: 1, // new
               value: progressPercent,
@@ -41,6 +41,7 @@ import 'package:custom_linear_progress_indicator/custom_linear_progress_indicato
               alignment: Alignment.center, // new
               showPercent: true,// new
               percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+              gradientColors: const [Colors.purple, Colors.blue, Colors.blueAccent], // new
               onProgressChanged: (double value) {
                 // new
                 log('Progress: $value');

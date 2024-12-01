@@ -25,6 +25,9 @@ class CustomProgressBarPainter extends CustomPainter {
   /// [linearProgressBarBorderRadius]: A double value specifically adjusting the border radius of the linear progress bar element within the overall progress bar.
   final double linearProgressBarBorderRadius;
 
+  /// [gradientColors]: A List of Color values representing the gradient colors for the progress bar.
+  final List<Color>? gradientColors;
+
   CustomProgressBarPainter({
     required this.value,
     required this.borderRadius,
@@ -34,6 +37,7 @@ class CustomProgressBarPainter extends CustomPainter {
     required this.backgroundColor,
     required this.valueColor,
     required this.linearProgressBarBorderRadius,
+    this.gradientColors,
   });
 
   @override
@@ -54,6 +58,17 @@ class CustomProgressBarPainter extends CustomPainter {
       final progressPaint = Paint()
         ..color = valueColor
         ..style = PaintingStyle.fill;
+
+      if (gradientColors != null && gradientColors!.length > 1) {
+        final rect = Rect.fromLTWH(0, 0, size.width * value, size.height);
+        progressPaint.shader = LinearGradient(
+          colors: gradientColors!,
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ).createShader(rect);
+      } else {
+        progressPaint.color = valueColor;
+      }
 
       final progressWidth = size.width * value;
       final progressRect = RRect.fromRectAndCorners(
