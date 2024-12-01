@@ -52,8 +52,8 @@ packages:
   custom_linear_progress_indicator:
     dependency: "direct main"
     description:
-      path: "G:\\Android\\Pakege\\custom_linear_progress_indicator"
-      relative: false
+      path: ".."
+      relative: true
     source: path
     version: "0.0.1"
   fake_async:

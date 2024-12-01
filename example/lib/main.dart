@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:custom_linear_progress_indicator/custom_linear_progress_indicator.dart';
 import 'package:flutter/material.dart';
 
@@ -31,87 +33,49 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DateTime selectedData = DateTime.now();
-
-  _selectedData(BuildContext context) async {
-    final DateTime? piked = await showDatePicker(
-      context: context,
-      initialDate: selectedData,
-      firstDate: DateTime(1950),
-      lastDate: DateTime(2028),
-    );
-    if (piked != null && piked != selectedData) {
-      setState(() {
-        selectedData = piked;
-      });
-    }
-  }
-
   late double progressPercent = 0;
-  final double total = 1200;
-
-  double users = 1100;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.ac_unit_rounded)),
-          PopupMenuButton(
-            itemBuilder: (context) {
-              return [
-                const PopupMenuItem(child: Text("Hello")),
-                const PopupMenuItem(child: Text("World")),
-                const PopupMenuItem(child: Text("!")),
-              ];
-            },
-          )
-        ],
-      ),
-      body: Center(
+      appBar: AppBar(),
+      body: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomLinearProgressIndicator(
-              borderColor: Colors.blue,
-              borderWidth: 3,
-              progressPercent:
-                  double.tryParse((users / total).toStringAsFixed(2))!,
-              width: 0.8,
-              colorLinearProgress: Colors.black87,
-              animationDurationSeconds: 2,
-              minHeight: 50,
-              linearProgressBarBorderRadius: 12.0,
-              borderRadius: 12.0,
+              value: progressPercent,
+              height: 50,
+              borderWidth: 4,
+              borderColor: Colors.yellow.shade900,
+              borderStyle: BorderStyle.solid,
+              colorLinearProgress: Colors.yellow,
+              animationDuration: 1000,
+              borderRadius: 20,
+              linearProgressBarBorderRadius: 20,
               backgroundColor: Colors.green.shade50,
-              percentTextStyle: const TextStyle(
-                color: Colors.blue,
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-              ),
+              showPercent: true,
+              percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+              onProgressChanged: (double value) {
+                log('Progress: $value');
+              },
             ),
             const SizedBox(height: 30),
-            const CustomLinearProgressIndicator(progressPercent: 0.6),
-            const SizedBox(height: 30),
-            const CustomLinearProgressIndicator(
-              progressPercent: 0.75,
-              colorLinearProgress: Colors.green,
-              backgroundColor: Colors.black12,
-              borderRadius: 20.0,
-              linearProgressBarBorderRadius: 20.0,
-              minHeight: 65,
-              width: 0.8,
-              percentTextStyle: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-              ),
-            )
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  progressPercent += 0.1;
+                });
+
+                log(progressPercent.toString());
+              },
+              child: const Text('Change Progress'),
+            ),
           ],
         ),
       ),
-
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
