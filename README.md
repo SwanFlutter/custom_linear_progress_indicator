@@ -26,16 +26,14 @@ import 'package:custom_linear_progress_indicator/custom_linear_progress_indicato
 ```dart
 // you can click double tap to reset progress
 CustomLinearProgressIndicator(
-  maxValue: 1, // new
-  value: progressPercent,
+  value: 0.5, // 0.0 - 1.0
   minHeight: 50,
   borderWidth: 4,
   borderColor: Colors.black,
   borderStyle: BorderStyle.solid,
   colorLinearProgress: Colors.yellow,
-  animationDuration: 1000, // 1000 milliseconds = 1 second
-  borderRadius: 100,
-  linearProgressBarBorderRadius: 100,
+  animationDuration: const Duration(seconds: 1),
+  borderRadius: 20,
   backgroundColor: Colors.green.shade50,
   progressAnimationCurve: Curves.ease, // new
   alignment: Alignment.center, // new
