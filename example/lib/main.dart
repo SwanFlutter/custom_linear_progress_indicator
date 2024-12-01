@@ -33,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DateTime selectedData = DateTime.now();
-  late double progressPercent = 0.5;
+  late double progressPercent = 0.1;
 
   @override
   Widget build(BuildContext context) {
@@ -47,31 +47,36 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             // you can click double tap to reset progress
             CustomLinearProgressIndicator(
-              maxValue: 2, // new
+              maxValue: 1, // new
               value: progressPercent,
               minHeight: 50,
               borderWidth: 4,
-              borderColor: Colors.yellow.shade900,
+              borderColor: Colors.black,
               borderStyle: BorderStyle.solid,
               colorLinearProgress: Colors.yellow,
-              animationDuration: 1000,
-              borderRadius: 5,
-              linearProgressBarBorderRadius: 10,
+              animationDuration: 1000, // 1000 milliseconds = 1 second
+              borderRadius: 100,
+              linearProgressBarBorderRadius: 100,
               backgroundColor: Colors.green.shade50,
               progressAnimationCurve: Curves.ease, // new
               alignment: Alignment.center, // new
               showPercent: true, // new
               percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),
-              onProgressChanged: (double value) {
-                // new
-                log('Progress: $value');
-              },
+              onProgressChanged: (double value) {},
+              // New
+              progressGradient: const LinearGradient(
+                colors: [
+                  Colors.red,
+                  Colors.yellow,
+                  Colors.green,
+                ],
+              ),
             ),
             const SizedBox(height: 30),
             TextButton(
               onPressed: () {
                 setState(() {
-                  progressPercent += 0.5;
+                  progressPercent += 0.3;
                 });
 
                 log(progressPercent.toString());
