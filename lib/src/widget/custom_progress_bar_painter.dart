@@ -75,8 +75,10 @@ class CustomProgressBarPainter extends CustomPainter {
         Rect.fromLTWH(0, 0, progressWidth, size.height),
         topLeft: Radius.circular(borderRadius),
         bottomLeft: Radius.circular(borderRadius),
-        topRight: Radius.circular(value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
-        bottomRight: Radius.circular(value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
+        topRight: Radius.circular(
+            value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
+        bottomRight: Radius.circular(
+            value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
       );
       canvas.drawRRect(progressRect, progressPaint);
 
@@ -107,6 +109,7 @@ class CustomProgressBarPainter extends CustomPainter {
         oldDelegate.borderWidth != borderWidth ||
         oldDelegate.backgroundColor != backgroundColor ||
         oldDelegate.valueColor != valueColor ||
-        oldDelegate.linearProgressBarBorderRadius != linearProgressBarBorderRadius;
+        oldDelegate.linearProgressBarBorderRadius !=
+            linearProgressBarBorderRadius;
   }
 }

@@ -81,10 +81,13 @@ class CustomLinearProgressIndicator extends StatefulWidget {
   });
 
   @override
-  State<CustomLinearProgressIndicator> createState() => _CustomLinearProgressIndicatorState();
+  State<CustomLinearProgressIndicator> createState() =>
+      _CustomLinearProgressIndicatorState();
 }
 
-class _CustomLinearProgressIndicatorState extends State<CustomLinearProgressIndicator> with SingleTickerProviderStateMixin {
+class _CustomLinearProgressIndicatorState
+    extends State<CustomLinearProgressIndicator>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
   late double _previousValue = 0.0;
@@ -102,7 +105,8 @@ class _CustomLinearProgressIndicatorState extends State<CustomLinearProgressIndi
   void _updateAnimation() {
     final clampedValue = widget.value.clamp(0.0, widget.maxValue);
     final normalizedValue = (clampedValue / widget.maxValue).clamp(0.0, 1.0);
-    final normalizedPreviousValue = (_previousValue / widget.maxValue).clamp(0.0, 1.0);
+    final normalizedPreviousValue =
+        (_previousValue / widget.maxValue).clamp(0.0, 1.0);
 
     _animation = Tween<double>(
       begin: normalizedPreviousValue,
@@ -140,7 +144,8 @@ class _CustomLinearProgressIndicatorState extends State<CustomLinearProgressIndi
   @override
   void didUpdateWidget(CustomLinearProgressIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value || oldWidget.maxValue != widget.maxValue) {
+    if (oldWidget.value != widget.value ||
+        oldWidget.maxValue != widget.maxValue) {
       _updateAnimation();
     }
   }
@@ -173,7 +178,8 @@ class _CustomLinearProgressIndicatorState extends State<CustomLinearProgressIndi
                 borderWidth: widget.borderWidth,
                 backgroundColor: widget.backgroundColor,
                 valueColor: widget.colorLinearProgress,
-                linearProgressBarBorderRadius: widget.linearProgressBarBorderRadius,
+                linearProgressBarBorderRadius:
+                    widget.linearProgressBarBorderRadius,
                 gradientColors: widget.gradientColors,
               ),
               size: Size.infinite,
