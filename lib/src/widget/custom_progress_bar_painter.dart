@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 
 class CustomProgressBarPainter extends CustomPainter {
-
-  /// [progressPercent]: A double value representing the current progress percentage (0.0 to 1.0).
-  final double progressPercent;
+  /// [value]: A double value representing the current progress percentage (0.0 to 1.0).
+  double value;
 
   /// [borderRadius]: A double value controlling the overall border radius of the progress bar.
   final double borderRadius;
@@ -28,7 +26,7 @@ class CustomProgressBarPainter extends CustomPainter {
   final double linearProgressBarBorderRadius;
 
   CustomProgressBarPainter({
-    required this.progressPercent,
+    required this.value,
     required this.borderRadius,
     required this.borderColor,
     required this.borderStyle,
@@ -54,23 +52,29 @@ class CustomProgressBarPainter extends CustomPainter {
     );
     canvas.drawRRect(backgroundRect, paint);
 
-    // Draw progress bar
-    paint.color = valueColor;
-    double progressBarWidth = size.width * progressPercent;
-    RRect progressBarRect = RRect.fromLTRBR(
-      0,
-      0,
-      progressBarWidth,
-      size.height,
-      Radius.circular(linearProgressBarBorderRadius),
-    );
-    canvas.drawRRect(progressBarRect, paint);
+    RRect? progressBarRect;
+
+    if (value > 0) {
+      // Draw progress bar
+      paint.color = valueColor;
+      double progressBarWidth = size.width * value;
+      progressBarRect = RRect.fromLTRBR(
+        0,
+        0,
+        progressBarWidth,
+        size.height,
+        Radius.circular(linearProgressBarBorderRadius),
+      );
+      canvas.drawRRect(progressBarRect, paint);
+    }
 
     // Draw border
     paint.style = PaintingStyle.stroke;
     paint.color = borderColor;
     paint.strokeWidth = borderWidth;
-    canvas.drawRRect(progressBarRect, paint);
+    if (progressBarRect != null) {
+      canvas.drawRRect(progressBarRect, paint);
+    }
     canvas.drawRRect(backgroundRect, paint);
   }
 
