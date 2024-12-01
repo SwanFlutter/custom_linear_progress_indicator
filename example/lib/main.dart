@@ -33,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DateTime selectedData = DateTime.now();
-  late double progressPercent = 0;
+  late double progressPercent = 0.5;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // you can click double tap to reset progress
             CustomLinearProgressIndicator(
+              maxValue: 1, // new
+
               value: progressPercent,
               minHeight: 50,
               borderWidth: 4,
@@ -53,12 +56,15 @@ class _MyHomePageState extends State<MyHomePage> {
               borderStyle: BorderStyle.solid,
               colorLinearProgress: Colors.yellow,
               animationDuration: 1000,
-              borderRadius: 20,
-              linearProgressBarBorderRadius: 20,
+              borderRadius: 5,
+              linearProgressBarBorderRadius: 10,
               backgroundColor: Colors.green.shade50,
-              showPercent: true,
+              progressAnimationCurve: Curves.bounceInOut, // new
+              alignment: Alignment.center, // new
+              showPercent: true, // new
               percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),
               onProgressChanged: (double value) {
+                // new
                 log('Progress: $value');
               },
             ),
@@ -66,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               onPressed: () {
                 setState(() {
-                  progressPercent += 0.1;
+                  progressPercent += 0.5;
                 });
 
                 log(progressPercent.toString());

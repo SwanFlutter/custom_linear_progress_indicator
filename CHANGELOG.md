@@ -7,3 +7,8 @@
 * Fixed animation controller bug (Previously: it was not animating on value changes).
 * Code cleanup.
 * Added function `onProgressChanged` to listen progress changes.
+
+## 0.0.3
+
+* Fixed animation.
+* Add new prepertiy = maxValue , alignment , progressAnimationCurve, showPercent, onProgressChanged,

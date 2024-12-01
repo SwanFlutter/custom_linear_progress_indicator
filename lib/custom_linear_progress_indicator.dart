@@ -1,4 +1,4 @@
-library custom_linear_progress_indicator;
+library;
 
 import 'package:custom_linear_progress_indicator/src/widget/custom_progress_bar_painter.dart';
 import 'package:flutter/material.dart';
@@ -43,12 +43,25 @@ class CustomLinearProgressIndicator extends StatefulWidget {
   /// [showPercent]: A bool value indicating whether to show the percentage text or not.
   final bool showPercent;
 
+  /// [progressAnimationCurve]: A Curve value specifying the curve for the progress animation.
+  final Curve progressAnimationCurve;
+
+  /// [alignment]: An AlignmentGeometry value specifying the alignment of the progress bar within its container.
+  final AlignmentGeometry alignment;
+
+  /// [maxValue]: A double value representing the maximum value for the progress bar.
+  ///
+  /// Defaults 0 to 1.0.
+  ///
+  /// You can set this value to more than 100%.
+  final double maxValue;
+
   const CustomLinearProgressIndicator({
     super.key,
     required this.value,
     this.animationDuration = 500,
     this.borderRadius = 0,
-    this.borderColor = Colors.white,
+    this.borderColor = Colors.black,
     this.borderStyle = BorderStyle.solid,
     this.borderWidth = 1,
     this.backgroundColor = Colors.grey,
@@ -58,6 +71,9 @@ class CustomLinearProgressIndicator extends StatefulWidget {
     this.onProgressChanged,
     this.percentTextStyle,
     this.showPercent = false,
+    this.progressAnimationCurve = Curves.easeInOut,
+    this.alignment = Alignment.center,
+    this.maxValue = 1.0,
   });
 
   @override
@@ -67,6 +83,7 @@ class CustomLinearProgressIndicator extends StatefulWidget {
 class _CustomLinearProgressIndicatorState extends State<CustomLinearProgressIndicator> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
+  late double _previousValue = 0.0;
 
   @override
   void initState() {
@@ -75,75 +92,99 @@ class _CustomLinearProgressIndicatorState extends State<CustomLinearProgressIndi
       vsync: this,
       duration: Duration(milliseconds: widget.animationDuration),
     );
-    _animationController.reset();
-    setState(() {
-      _animation = Tween<double>(
-        begin: 0,
-        end: widget.value,
-      ).animate(CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOutExpo,
-      ));
-    });
-    _animation.addListener(() {
-      if (widget.onProgressChanged != null) {
-        widget.onProgressChanged!(_animation.value);
-      }
-      setState(() {});
-    });
-    _animationController.forward();
+    _updateAnimation();
+  }
+
+  void _updateAnimation() {
+    final normalizedValue = (widget.value / widget.maxValue).clamp(0.0, 1.0);
+    final normalizedPreviousValue = (_previousValue / widget.maxValue).clamp(0.0, 1.0);
+
+    _animation = Tween<double>(
+      begin: normalizedPreviousValue,
+      end: normalizedValue,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: widget.progressAnimationCurve,
+    ))
+      ..addListener(() {
+        setState(() {});
+        if (widget.onProgressChanged != null) {
+          widget.onProgressChanged!(_animation.value * widget.maxValue);
+        }
+      });
+    _animationController.forward(from: 0);
+    _previousValue = widget.value;
+  }
+
+  void _refreshAnimation() {
+    _animation = Tween<double>(
+      begin: 0,
+      end: widget.value,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ))
+      ..addListener(() {
+        setState(() {});
+        if (widget.onProgressChanged != null) {
+          widget.onProgressChanged!(_animation.value);
+        }
+      });
+    _animationController.forward(from: 0);
   }
 
   @override
-  void didUpdateWidget(covariant CustomLinearProgressIndicator oldWidget) {
+  void didUpdateWidget(CustomLinearProgressIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.value != widget.value) {
-      _animation = Tween<double>(
-        begin: _animation.value,
-        end: widget.value,
-      ).animate(CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ))
-        ..addListener(
-          () {
-            if (widget.onProgressChanged != null) {
-              widget.onProgressChanged!(_animation.value);
-            }
-          },
-        );
-      _animationController.forward(from: 0);
+    if (oldWidget.value != widget.value || oldWidget.maxValue != widget.maxValue) {
+      _updateAnimation();
     }
+  }
+
+  void _resetAnimation() {
+    _animationController.reset();
+    _refreshAnimation();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return SizedBox(
-      width: size.width,
-      height: widget.minHeight,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(widget.borderRadius),
-        child: CustomPaint(
-          painter: CustomProgressBarPainter(
-            value: _animation.value,
-            borderRadius: widget.borderRadius,
-            borderColor: widget.borderColor,
-            borderStyle: widget.borderStyle,
-            borderWidth: widget.borderWidth,
-            backgroundColor: widget.backgroundColor,
-            valueColor: widget.colorLinearProgress,
-            linearProgressBarBorderRadius: widget.linearProgressBarBorderRadius,
-          ),
-          child: widget.showPercent
-              ? Center(
+    return GestureDetector(
+      onDoubleTap: _resetAnimation,
+      child: SizedBox(
+        height: widget.minHeight,
+        child: Stack(
+          children: [
+            CustomPaint(
+              painter: CustomProgressBarPainter(
+                value: _animation.value,
+                borderRadius: widget.borderRadius,
+                borderColor: widget.borderColor,
+                borderStyle: widget.borderStyle,
+                borderWidth: widget.borderWidth,
+                backgroundColor: widget.backgroundColor,
+                valueColor: widget.colorLinearProgress,
+                linearProgressBarBorderRadius: widget.linearProgressBarBorderRadius,
+              ),
+              size: Size.infinite,
+            ),
+            if (widget.showPercent)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Align(
+                  alignment: widget.alignment,
                   child: Text(
-                    '${(_animation.value * 100).round()}%',
+                    '${(_animation.value * widget.maxValue * 100).toStringAsFixed(1)}%',
                     style: widget.percentTextStyle,
                   ),
-                )
-              : const SizedBox.shrink(),
+                ),
+              ),
+          ],
         ),
       ),
     );

@@ -9,7 +9,7 @@ Provides a customizable linear progress indicator widget for Flutter application
 
 ```yaml
 dependencies:
-   custom_linear_progress_indicator: ^0.0.2
+   custom_linear_progress_indicator: ^0.0.3
 
 ```
 ## How to use
@@ -21,23 +21,28 @@ import 'package:custom_linear_progress_indicator/custom_linear_progress_indicato
 ## Usage
 
 ```dart
-CustomLinearProgressIndicator(
-   value: progressPercent,
-   minHeight: 50,
-   borderWidth: 4,
-   borderColor: Colors.yellow.shade900,
-   borderStyle: BorderStyle.solid,
-   colorLinearProgress: Colors.yellow,
-   animationDuration: 1000,
-   borderRadius: 20,
-   linearProgressBarBorderRadius: 20,
-   backgroundColor: Colors.green.shade50,
-   showPercent: true,
-   percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),
-   onProgressChanged: (double value) {
-      log('Progress: $value');
-   },
-),
+ // you can click double tap to reset progress
+            CustomLinearProgressIndicator(
+              maxValue: 1, // new
+              value: progressPercent,
+              minHeight: 50,
+              borderWidth: 4,
+              borderColor: Colors.yellow.shade900,
+              borderStyle: BorderStyle.solid,
+              colorLinearProgress: Colors.yellow,
+              animationDuration: 1000,
+              borderRadius: 5,
+              linearProgressBarBorderRadius: 10,
+              backgroundColor: Colors.green.shade50,
+              progressAnimationCurve: Curves.bounceInOut, // new
+              alignment: Alignment.center, // new
+              showPercent: true,// new
+              percentTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+              onProgressChanged: (double value) {
+                // new
+                log('Progress: $value');
+              },
+            ),
 ```
 
 See `/example` folder for better understanding.

@@ -38,48 +38,60 @@ class CustomProgressBarPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
+    // Background
+    final backgroundPaint = Paint()
       ..color = backgroundColor
       ..style = PaintingStyle.fill;
 
-    // Draw background container
-    RRect backgroundRect = RRect.fromLTRBR(
-      0,
-      0,
-      size.width,
-      size.height,
+    final backgroundRect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(0, 0, size.width, size.height),
       Radius.circular(borderRadius),
     );
-    canvas.drawRRect(backgroundRect, paint);
+    canvas.drawRRect(backgroundRect, backgroundPaint);
 
-    RRect? progressBarRect;
-
+    // Progress
     if (value > 0) {
-      // Draw progress bar
-      paint.color = valueColor;
-      double progressBarWidth = size.width * value;
-      progressBarRect = RRect.fromLTRBR(
-        0,
-        0,
-        progressBarWidth,
-        size.height,
-        Radius.circular(linearProgressBarBorderRadius),
+      final progressPaint = Paint()
+        ..color = valueColor
+        ..style = PaintingStyle.fill;
+
+      final progressWidth = size.width * value;
+      final progressRect = RRect.fromRectAndCorners(
+        Rect.fromLTWH(0, 0, progressWidth, size.height),
+        topLeft: Radius.circular(borderRadius),
+        bottomLeft: Radius.circular(borderRadius),
+        topRight: Radius.circular(value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
+        bottomRight: Radius.circular(value == 1.0 ? borderRadius : linearProgressBarBorderRadius),
       );
-      canvas.drawRRect(progressBarRect, paint);
+      canvas.drawRRect(progressRect, progressPaint);
+
+      // Border for progress
+      final progressBorderPaint = Paint()
+        ..color = borderColor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = borderWidth;
+
+      canvas.drawRRect(progressRect, progressBorderPaint);
     }
 
-    // Draw border
-    paint.style = PaintingStyle.stroke;
-    paint.color = borderColor;
-    paint.strokeWidth = borderWidth;
-    if (progressBarRect != null) {
-      canvas.drawRRect(progressBarRect, paint);
-    }
-    canvas.drawRRect(backgroundRect, paint);
+    // Outer Border
+    final borderPaint = Paint()
+      ..color = borderColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = borderWidth;
+
+    canvas.drawRRect(backgroundRect, borderPaint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(covariant CustomProgressBarPainter oldDelegate) {
+    return oldDelegate.value != value ||
+        oldDelegate.borderRadius != borderRadius ||
+        oldDelegate.borderColor != borderColor ||
+        oldDelegate.borderStyle != borderStyle ||
+        oldDelegate.borderWidth != borderWidth ||
+        oldDelegate.backgroundColor != backgroundColor ||
+        oldDelegate.valueColor != valueColor ||
+        oldDelegate.linearProgressBarBorderRadius != linearProgressBarBorderRadius;
   }
 }
