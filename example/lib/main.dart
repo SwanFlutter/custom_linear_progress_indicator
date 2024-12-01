@@ -33,7 +33,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   DateTime selectedData = DateTime.now();
-  late double progressPercent = 0.1;
+
+  late double progressPercent = 3;
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
               colorLinearProgress: Colors.yellow,
               animationDuration: const Duration(seconds: 1),
               borderRadius: 20,
+
               backgroundColor: Colors.green.shade50,
               progressAnimationCurve: Curves.ease, // new
               alignment: Alignment.center, // new

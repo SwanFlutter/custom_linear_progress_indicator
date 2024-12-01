@@ -7,12 +7,14 @@ Provides a customizable linear progress indicator widget for Flutter application
 ![20241201_000540](https://github.com/user-attachments/assets/fa60c496-1550-45df-9003-3478afe7a13b)
 
 
+![20241201_062856](https://github.com/user-attachments/assets/30c077d5-2664-4f53-9e5e-9811c8e02a13)
+
 
 ## Getting started
 
 ```yaml
 dependencies:
-   custom_linear_progress_indicator: ^0.0.3
+   custom_linear_progress_indicator: ^0.0.4
 
 ```
 ## How to use
@@ -24,7 +26,6 @@ import 'package:custom_linear_progress_indicator/custom_linear_progress_indicato
 ## Usage
 
 ```dart
-// you can click double tap to reset progress
 CustomLinearProgressIndicator(
   value: 0.5, // 0.0 - 1.0
   minHeight: 50,

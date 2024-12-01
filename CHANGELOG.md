@@ -12,3 +12,8 @@
 
 * Fixed animation.
 * Add new prepertiy = maxValue , alignment , progressAnimationCurve, showPercent, onProgressChanged,
+
+## 0.0.4
+
+* Fixed animation.
+* Add new prepertiy = gradientColors,

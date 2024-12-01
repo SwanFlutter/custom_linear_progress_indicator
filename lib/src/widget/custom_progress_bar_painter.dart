@@ -27,6 +27,7 @@ class CustomProgressBarPainter extends CustomPainter {
 
   final LinearGradient? progressGradient;
 
+
   CustomProgressBarPainter({
     required this.value,
     required this.borderRadius,
@@ -36,7 +37,9 @@ class CustomProgressBarPainter extends CustomPainter {
     required this.backgroundColor,
     required this.valueColor,
     required this.linearProgressBarBorderRadius,
+
     this.progressGradient,
+
   });
 
   @override
@@ -64,6 +67,7 @@ class CustomProgressBarPainter extends CustomPainter {
             Rect.fromLTWH(0, 0, size.width * value, size.height),
           )
           ..style = PaintingStyle.fill;
+
       }
 
       final progressWidth = size.width * value;

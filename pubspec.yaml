@@ -1,6 +1,6 @@
 name: custom_linear_progress_indicator
 description: "Provides a customizable linear progress indicator widget for Flutter applications, offering animation and visual customization options."
-version: 0.0.3
+version: 0.0.4
 homepage: "https://github.com/SwanFlutter/custom_linear_progress_indicator.git"
 
 environment:
